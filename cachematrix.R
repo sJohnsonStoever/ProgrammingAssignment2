@@ -33,11 +33,14 @@ makeCacheMatrix <- function(x = matrix()) {
     inv <- NULL
     set <- function(y) {
         x <<- y
+        # Clear the matrix inverse since the matrix has changed:
         m <<- NULL
     }
     get <- function() x
     setinverse <- function(inverse) inv <<- inverse
     getinverse <- function() inv
+    # Data structure is created, return list pointing
+    # to data structure functions
     list(set = set, 
          get = get, 
          setinverse = setinverse, 
@@ -58,8 +61,11 @@ cacheSolve <- function(x, ...) {
         # So return that matrix:
         return(inv)
     }
+    # Compute the matrix inverse
     mat <- x$get()
     inv <- solve(mat)
+    # Save the computed inverse into the CacheMatrix
     x$setinv(inv)
+    # Return the computed inverse
     inv
 }
